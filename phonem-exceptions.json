@@ -1,0 +1,232 @@
+{
+  "backend_candidates": {
+    "en": [
+      "en",
+      "en-gb",
+      "en-us"
+    ],
+    "en-ca": [
+      "en-us",
+      "en",
+      "en-gb"
+    ],
+    "en-gb": [
+      "en-gb",
+      "en",
+      "en-gb-x-rp",
+      "en-uk-rp"
+    ],
+    "en-lancashire": [
+      "en-gb-x-gbclan",
+      "en-uk-north",
+      "en-gb",
+      "en"
+    ],
+    "en-nyc": [
+      "en-us-nyc",
+      "en-us",
+      "en"
+    ],
+    "en-rp": [
+      "en-gb-x-rp",
+      "en-uk-rp",
+      "en-gb",
+      "en"
+    ],
+    "en-us": [
+      "en-us",
+      "en"
+    ],
+    "es": [
+      "es",
+      "es-419",
+      "es-la"
+    ],
+    "es-es": [
+      "es",
+      "es-es"
+    ],
+    "es-uy": [
+      "es-419",
+      "es-la"
+    ],
+    "fr": [
+      "fr",
+      "fr-fr"
+    ],
+    "fr-be": [
+      "fr-be",
+      "fr-fr",
+      "fr"
+    ],
+    "fr-ca": [
+      "fr-be",
+      "fr-fr",
+      "fr"
+    ],
+    "fr-ch": [
+      "fr-ch",
+      "fr-fr",
+      "fr"
+    ],
+    "fr-ch-qv": [
+      "fr-ch",
+      "fr-fr",
+      "fr"
+    ],
+    "fr-fr": [
+      "fr-fr",
+      "fr"
+    ]
+  },
+  "ipa_replacements": {
+    "es-uy": {
+      "ɟʝ": "ʃ",
+      "ʎ": "ʃ",
+      "ʝ": "ʃ"
+    }
+  },
+  "license": "GPL-2.0-or-later",
+  "notes": {
+    "en": "Edit backend_candidates, number_profiles, number_scales, replacements or ipa_replacements, then load the file with --exceptions FILE.",
+    "es": "Edite backend_candidates, number_profiles, number_scales, replacements o ipa_replacements y cargue el archivo con --exceptions FILE.",
+    "fr": "Modifiez backend_candidates, number_profiles, number_scales, replacements ou ipa_replacements, puis chargez le fichier avec --exceptions FILE."
+  },
+  "number_profiles": {
+    "fr": {
+      "eighty_style": "quatre-vingt",
+      "ninety_style": "quatre-vingt-dix",
+      "seventy_style": "soixante-dix"
+    },
+    "fr-be": {
+      "eighty_style": "quatre-vingt",
+      "ninety_style": "nonante",
+      "seventy_style": "septante"
+    },
+    "fr-ca": {
+      "eighty_style": "quatre-vingt",
+      "ninety_style": "quatre-vingt-dix",
+      "seventy_style": "soixante-dix"
+    },
+    "fr-ch": {
+      "eighty_style": "huitante",
+      "ninety_style": "nonante",
+      "seventy_style": "septante"
+    },
+    "fr-ch-qv": {
+      "eighty_style": "quatre-vingt",
+      "ninety_style": "nonante",
+      "seventy_style": "septante"
+    },
+    "fr-fr": {
+      "eighty_style": "quatre-vingt",
+      "ninety_style": "quatre-vingt-dix",
+      "seventy_style": "soixante-dix"
+    }
+  },
+  "number_scales": {
+    "en": {
+      "and_style": "british",
+      "scale": "short"
+    },
+    "en-ca": {
+      "and_style": "british",
+      "scale": "short"
+    },
+    "en-gb": {
+      "and_style": "british",
+      "scale": "short"
+    },
+    "en-lancashire": {
+      "and_style": "british",
+      "scale": "short"
+    },
+    "en-nyc": {
+      "and_style": "american",
+      "scale": "short"
+    },
+    "en-rp": {
+      "and_style": "british",
+      "scale": "short"
+    },
+    "en-us": {
+      "and_style": "american",
+      "scale": "short"
+    },
+    "es": {
+      "scale": "long"
+    },
+    "es-es": {
+      "scale": "long"
+    },
+    "es-uy": {
+      "scale": "long"
+    },
+    "fr": {
+      "scale": "long"
+    },
+    "fr-be": {
+      "scale": "long"
+    },
+    "fr-ca": {
+      "scale": "long"
+    },
+    "fr-ch": {
+      "scale": "long"
+    },
+    "fr-ch-qv": {
+      "scale": "long"
+    },
+    "fr-fr": {
+      "scale": "long"
+    }
+  },
+  "profile_notes": {
+    "en": {
+      "en-ca": "Upstream eSpeak NG has no native en-ca voice; en-us is only a practical Canadian-English approximation for this study profile.",
+      "es-es": "eSpeak NG exposes Spanish (Spain) as es. es-es is a convenient logical alias.",
+      "es-uy": "Upstream eSpeak NG has no native es-uy voice. This formal Uruguayan study profile uses Latin-American Spanish (es-419, legacy es-la) to preserve seseo, then applies a small IPA overlay for voiceless rehilated yeismo (ll/consonantal y -> [ʃ]). Final /s/ is preserved; no aspiration or deletion is introduced. It deliberately has no Spain-voice fallback.",
+      "fr-be": "Uses septante, quatre-vingts and nonante.",
+      "fr-ca": "Uses Quebec/France number forms for 70/80/90. Upstream eSpeak NG has no native fr-ca voice; fr-be is only this project's pragmatic pronunciation approximation, not a claim of equivalence or of being linguistically the closest voice.",
+      "fr-ch": "Study profile using septante, huitante and nonante; huitante is regional within French-speaking Switzerland.",
+      "fr-ch-qv": "Alternate Swiss study profile using septante, quatre-vingts and nonante."
+    },
+    "es": {
+      "en-ca": "eSpeak NG upstream no tiene una voz nativa en-ca; en-us es sólo una aproximación práctica al inglés canadiense para este perfil de estudio.",
+      "es-es": "eSpeak NG expone el español de España como es. es-es es un alias lógico cómodo.",
+      "es-uy": "eSpeak NG upstream no tiene una voz nativa es-uy. Este perfil formal uruguayo usa español latinoamericano (es-419, es-la legado) para conservar el seseo y luego aplica una capa IPA pequeña para el yeísmo rehilado sordo (ll/y consonántica -> [ʃ]). Se conservan las /s/ finales; no se introduce aspiración ni elisión. Deliberadamente no usa una voz de España como fallback.",
+      "fr-be": "Usa septante, quatre-vingts y nonante.",
+      "fr-ca": "Usa las formas de Quebec/Francia para 70/80/90. eSpeak NG upstream no tiene una voz nativa fr-ca; fr-be es sólo la aproximación pragmática elegida por este proyecto, no una afirmación de equivalencia ni de que sea lingüísticamente la voz más cercana.",
+      "fr-ch": "Perfil de estudio con septante, huitante y nonante; huitante es regional dentro de la Suiza francófona.",
+      "fr-ch-qv": "Perfil suizo alternativo con septante, quatre-vingts y nonante."
+    },
+    "fr": {
+      "en-ca": "eSpeak NG upstream ne fournit pas de voix native en-ca; en-us n'est qu'une approximation pratique de l'anglais canadien pour ce profil d'étude.",
+      "es-es": "eSpeak NG expose l'espagnol d'Espagne sous le code es. es-es est un alias logique pratique.",
+      "es-uy": "eSpeak NG upstream ne fournit pas de voix native es-uy. Ce profil formel uruguayen utilise l'espagnol latino-américain (es-419, ancien es-la) afin de conserver le seseo, puis applique une petite couche IPA pour le yeísmo rehilado sourd (ll/y consonantique -> [ʃ]). Les /s/ finales sont conservées; aucune aspiration ni élision n'est ajoutée. Aucune voix d'Espagne n'est utilisée comme solution de repli.",
+      "fr-be": "Utilise septante, quatre-vingts et nonante.",
+      "fr-ca": "Utilise les formes du Québec/de France pour 70/80/90. eSpeak NG upstream ne fournit pas de voix native fr-ca; fr-be n'est que l'approximation pragmatique choisie par ce projet, sans prétendre à l'équivalence ni à la plus grande proximité linguistique.",
+      "fr-ch": "Profil d'étude avec septante, huitante et nonante; huitante est régional en Suisse romande.",
+      "fr-ch-qv": "Profil suisse alternatif avec septante, quatre-vingts et nonante."
+    }
+  },
+  "replacements": {
+    "en": {},
+    "en-ca": {},
+    "en-gb": {},
+    "en-lancashire": {},
+    "en-nyc": {},
+    "en-rp": {},
+    "en-us": {},
+    "es": {},
+    "es-es": {},
+    "es-uy": {},
+    "fr": {},
+    "fr-be": {},
+    "fr-ca": {},
+    "fr-ch": {},
+    "fr-ch-qv": {},
+    "fr-fr": {}
+  },
+  "schema_version": 2
+}
