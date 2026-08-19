@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #pylint:disable=W0301
-# SPDX-License-Identifier: GPL-2.0-or-later
+#
+#  phonem.py
 #  
 #  Copyright 2018- William Martinez Bas <metfar@gmail.com>
 #  
@@ -19,6 +20,7 @@
 #  along with this program; if not, write to the Free Software
 #  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #  MA 02110-1301, USA.
+#  
 #  
 #
 #import warnings;
