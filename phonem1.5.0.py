@@ -62,7 +62,7 @@ import sys;
 from pathlib import Path;
 
 PROGRAM = "phonem.py";
-VERSION = "1.4.0";
+VERSION = "1.5.0";
 
 LANGUAGE_PROFILES = {
     "en": {
@@ -316,18 +316,18 @@ SPANISH_LONG_SCALE_NAMES = (
 # FR: Il s'agit de profils d'étude, non d'une affirmation selon laquelle tous
 #     les locuteurs d'un pays utilisent une seule forme. fr-ch modélise huitante.
 DEFAULT_EXCEPTIONS = {
-    "schema_version": 2,
+    "schema_version": 3,
     "notes": {
-        "en": "Edit backend_candidates, number_profiles, number_scales, replacements or ipa_replacements, then load the file with --exceptions FILE.",
-        "es": "Edite backend_candidates, number_profiles, number_scales, replacements o ipa_replacements y cargue el archivo con --exceptions FILE.",
-        "fr": "Modifiez backend_candidates, number_profiles, number_scales, replacements ou ipa_replacements, puis chargez le fichier avec --exceptions FILE.",
+        "en": "Edit backend_candidates, number_profiles, number_scales, replacements, ipa_replacements or ipa_regex_replacements, then load the file with --exceptions FILE.",
+        "es": "Edite backend_candidates, number_profiles, number_scales, replacements, ipa_replacements o ipa_regex_replacements y cargue el archivo con --exceptions FILE.",
+        "fr": "Modifiez backend_candidates, number_profiles, number_scales, replacements, ipa_replacements ou ipa_regex_replacements, puis chargez le fichier avec --exceptions FILE.",
     },
     "license": "GPL-2.0-or-later",
     "profile_notes": {
         "en": {
             "en-ca": "Upstream eSpeak NG has no native en-ca voice; en-us is only a practical Canadian-English approximation for this study profile.",
-            "es-es": "eSpeak NG exposes Spanish (Spain) as es. es-es is a convenient logical alias.",
-            "es-uy": "Upstream eSpeak NG has no native es-uy voice. This formal Uruguayan study profile uses Latin-American Spanish (es-419, legacy es-la) to preserve seseo, then applies a small IPA overlay for voiceless rehilated yeismo (ll/consonantal y -> [ʃ]). Final /s/ is preserved; no aspiration or deletion is introduced. It deliberately has no Spain-voice fallback.",
+            "es-es": "eSpeak NG exposes Spanish (Spain) as es. The es-es study profile adds a small yeismo overlay so <ll> follows the widespread modern /ʝ/ realization instead of eSpeak's conservative /ʎ/.",
+            "es-uy": "Upstream eSpeak NG has no native es-uy voice. This formal Uruguayan study profile uses Latin-American Spanish (es-419, legacy es-la) for seseo and applies an IPA overlay for voiceless rehilated yeismo (consonantal y/ll -> [ʃ]). The overlay handles both palatal symbols and the /jj/ sequence emitted by some Latin-American eSpeak backends (ella -> /ejja/), yielding the study target /eʃa/ while leaving word-final vocalic y untouched. Final /s/ is preserved; no aspiration or deletion is introduced.",
             "fr-ca": "Uses Quebec/France number forms for 70/80/90. Upstream eSpeak NG has no native fr-ca voice; fr-be is only this project's pragmatic pronunciation approximation, not a claim of equivalence or of being linguistically the closest voice.",
             "fr-be": "Uses septante, quatre-vingts and nonante.",
             "fr-ch": "Study profile using septante, huitante and nonante; huitante is regional within French-speaking Switzerland.",
@@ -335,8 +335,8 @@ DEFAULT_EXCEPTIONS = {
         },
         "es": {
             "en-ca": "eSpeak NG upstream no tiene una voz nativa en-ca; en-us es sólo una aproximación práctica al inglés canadiense para este perfil de estudio.",
-            "es-es": "eSpeak NG expone el español de España como es. es-es es un alias lógico cómodo.",
-            "es-uy": "eSpeak NG upstream no tiene una voz nativa es-uy. Este perfil formal uruguayo usa español latinoamericano (es-419, es-la legado) para conservar el seseo y luego aplica una capa IPA pequeña para el yeísmo rehilado sordo (ll/y consonántica -> [ʃ]). Se conservan las /s/ finales; no se introduce aspiración ni elisión. Deliberadamente no usa una voz de España como fallback.",
+            "es-es": "eSpeak NG expone el español de España como es. El perfil de estudio es-es agrega una pequeña capa de yeísmo para que <ll> siga la realización moderna extendida /ʝ/ en vez del /ʎ/ conservador de eSpeak.",
+            "es-uy": "eSpeak NG upstream no tiene una voz nativa es-uy. Este perfil formal uruguayo usa español latinoamericano (es-419, es-la legado) para el seseo y aplica una capa IPA para el yeísmo rehilado sordo (y/ll consonánticas -> [ʃ]). La capa maneja tanto símbolos palatales como la secuencia /jj/ que algunos backends latinoamericanos de eSpeak emiten (ella -> /ejja/), para obtener el objetivo /eʃa/ sin alterar la y vocálica final. Se conservan las /s/ finales; no se introduce aspiración ni elisión.",
             "fr-ca": "Usa las formas de Quebec/Francia para 70/80/90. eSpeak NG upstream no tiene una voz nativa fr-ca; fr-be es sólo la aproximación pragmática elegida por este proyecto, no una afirmación de equivalencia ni de que sea lingüísticamente la voz más cercana.",
             "fr-be": "Usa septante, quatre-vingts y nonante.",
             "fr-ch": "Perfil de estudio con septante, huitante y nonante; huitante es regional dentro de la Suiza francófona.",
@@ -344,8 +344,8 @@ DEFAULT_EXCEPTIONS = {
         },
         "fr": {
             "en-ca": "eSpeak NG upstream ne fournit pas de voix native en-ca; en-us n'est qu'une approximation pratique de l'anglais canadien pour ce profil d'étude.",
-            "es-es": "eSpeak NG expose l'espagnol d'Espagne sous le code es. es-es est un alias logique pratique.",
-            "es-uy": "eSpeak NG upstream ne fournit pas de voix native es-uy. Ce profil formel uruguayen utilise l'espagnol latino-américain (es-419, ancien es-la) afin de conserver le seseo, puis applique une petite couche IPA pour le yeísmo rehilado sourd (ll/y consonantique -> [ʃ]). Les /s/ finales sont conservées; aucune aspiration ni élision n'est ajoutée. Aucune voix d'Espagne n'est utilisée comme solution de repli.",
+            "es-es": "eSpeak NG expose l'espagnol d'Espagne sous le code es. Le profil d'étude es-es ajoute une petite couche de yeísmo afin que <ll> suive la réalisation moderne largement répandue /ʝ/ plutôt que le /ʎ/ conservateur d'eSpeak.",
+            "es-uy": "eSpeak NG upstream ne fournit pas de voix native es-uy. Ce profil formel uruguayen utilise l'espagnol latino-américain (es-419, ancien es-la) pour le seseo et applique une couche IPA pour le yeísmo rehilado sourd (y/ll consonantiques -> [ʃ]). Cette couche gère les symboles palataux ainsi que la séquence /jj/ émise par certains backends latino-américains d'eSpeak (ella -> /ejja/), afin d'obtenir la cible /eʃa/ sans modifier le y vocalique final. Les /s/ finales sont conservées; aucune aspiration ni élision n'est ajoutée.",
             "fr-ca": "Utilise les formes du Québec/de France pour 70/80/90. eSpeak NG upstream ne fournit pas de voix native fr-ca; fr-be n'est que l'approximation pragmatique choisie par ce projet, sans prétendre à l'équivalence ni à la plus grande proximité linguistique.",
             "fr-be": "Utilise septante, quatre-vingts et nonante.",
             "fr-ch": "Profil d'étude avec septante, huitante et nonante; huitante est régional en Suisse romande.",
@@ -419,14 +419,38 @@ DEFAULT_EXCEPTIONS = {
         "es": {}, "es-es": {}, "es-uy": {},
         "fr": {}, "fr-fr": {}, "fr-ca": {}, "fr-be": {}, "fr-ch": {}, "fr-ch-qv": {},
     },
-    # EN: Literal IPA post-processing is intentionally tiny. For es-uy it only
-    #     maps the palatal consonants commonly emitted for consonantal y/ll to [ʃ].
-    # ES: El postprocesado IPA es deliberadamente mínimo. En es-uy sólo lleva los
-    #     fonemas palatales habituales de y/ll consonánticas a [ʃ].
-    # FR: Le post-traitement IPA reste volontairement minimal. Pour es-uy, seuls
-    #     les phonèmes palataux usuels de y/ll consonantiques deviennent [ʃ].
+    # EN: Literal IPA post-processing is intentionally small. Spain's eSpeak
+    #     rules retain /ʎ/ for <ll>, while modern cultivated Spanish is broadly
+    #     yeista; es-es therefore maps that lateral to /ʝ/. The formal es-uy
+    #     profile maps consonantal y/ll to [ʃ]. Some Latin-American eSpeak
+    #     backends encode intervocalic consonantal y/ll as /jj/ (ella -> /ejja/),
+    #     so a contextual regex below maps /jj/ to [ʃ] only when another vowel
+    #     follows. This deliberately avoids changing word-final vocalic y in
+    #     words such as muy.
+    # ES: El postprocesado IPA es deliberadamente pequeño. Las reglas de eSpeak
+    #     para España conservan /ʎ/ en <ll>, mientras que el español culto moderno
+    #     es mayoritariamente yeísta; por eso es-es lleva esa lateral a /ʝ/. El
+    #     perfil formal es-uy lleva y/ll consonánticas a [ʃ]. Algunos backends
+    #     latinoamericanos de eSpeak codifican la y/ll consonántica intervocálica
+    #     como /jj/ (ella -> /ejja/); por eso una regex contextual transforma /jj/
+    #     en [ʃ] sólo cuando sigue otra vocal. Así no se altera la y vocálica final
+    #     de palabras como muy.
+    # FR: Le post-traitement IPA reste volontairement limité. Les règles eSpeak
+    #     pour l'Espagne conservent /ʎ/ pour <ll>, tandis que l'espagnol cultivé
+    #     moderne est largement yeíste; es-es transforme donc cette latérale en
+    #     /ʝ/. Le profil formel es-uy transforme y/ll consonantiques en [ʃ].
+    #     Certains backends latino-américains d'eSpeak codent le y/ll consonantique
+    #     intervocalique comme /jj/ (ella -> /ejja/); une regex contextuelle change
+    #     donc /jj/ en [ʃ] seulement lorsqu'une autre voyelle suit, sans modifier
+    #     le y vocalique final de mots comme muy.
     "ipa_replacements": {
-        "es-uy": {"ɟʝ": "ʃ", "ʝ": "ʃ", "ʎ": "ʃ"},
+        "es-es": {"ʎj": "ʝ", "ʎ": "ʝ"},
+        "es-uy": {"ɟʝj": "ʃ", "ʝj": "ʃ", "ʎj": "ʃ", "ɟʝ": "ʃ", "ʝ": "ʃ", "ʎ": "ʃ"},
+    },
+    "ipa_regex_replacements": {
+        "es-uy": [
+            {"pattern": "jj(?=[ˈˌ]?[aeiouɛɔ])", "replacement": "ʃ"},
+        ],
     },
 };
 
@@ -478,11 +502,20 @@ def build_parser():
         metavar="LANG",
         help="language/accent alias or eSpeak code (default: auto)",
     );
-    parser.add_argument(
+    punctuation = parser.add_mutually_exclusive_group();
+    punctuation.add_argument(
         "-p",
         "--preserve-punctuation",
+        dest="preserve_punctuation",
         action="store_true",
-        help="preserve punctuation in the IPA output",
+        default=True,
+        help="preserve punctuation in the IPA output (default; useful for pronounce.py)",
+    );
+    punctuation.add_argument(
+        "--strip-punctuation",
+        dest="preserve_punctuation",
+        action="store_false",
+        help="remove punctuation and emit phonetic symbols/spacing only",
     );
     parser.add_argument(
         "-s",
@@ -519,7 +552,7 @@ def build_parser():
     parser.add_argument(
         "--export-exceptions",
         metavar="FILE",
-        help="export the built-in study profiles/replacements as JSON; use '-' for stdout",
+        help="export built-in study profiles and literal/regex replacements as JSON; use '-' for stdout",
     );
     parser.add_argument(
         "--number-table",
@@ -661,6 +694,30 @@ def validate_config(config):
                 raise ValueError(f"exceptions JSON: {section_name}.{language} must be an object");
             if not all(isinstance(key, str) and isinstance(value, str) for key, value in mapping.items()):
                 raise ValueError(f"exceptions JSON: {section_name}.{language} must contain string:string pairs");
+
+    regex_section = config.get("ipa_regex_replacements", {});
+    if not isinstance(regex_section, dict):
+        raise ValueError("exceptions JSON: ipa_regex_replacements must be an object");
+    for language, rules in regex_section.items():
+        if not isinstance(rules, list):
+            raise ValueError(f"exceptions JSON: ipa_regex_replacements.{language} must be an array");
+        for index, rule in enumerate(rules):
+            if not isinstance(rule, dict):
+                raise ValueError(
+                    f"exceptions JSON: ipa_regex_replacements.{language}[{index}] must be an object"
+                );
+            pattern = rule.get("pattern");
+            replacement = rule.get("replacement");
+            if not isinstance(pattern, str) or not isinstance(replacement, str):
+                raise ValueError(
+                    f"exceptions JSON: ipa_regex_replacements.{language}[{index}] requires string pattern/replacement"
+                );
+            try:
+                re.compile(pattern);
+            except re.error as exc:
+                raise ValueError(
+                    f"exceptions JSON: invalid regex for {language}[{index}]: {exc}"
+                ) from exc;
     return config;
 
 
@@ -1090,7 +1147,7 @@ def resolve_language(requested, supported, config):
     raise ValueError(f"unknown or unsupported language/accent: {requested}");
 
 
-def phonemize_text(text, backend_language, preserve_punctuation=False, with_stress=False):
+def phonemize_text(text, backend_language, preserve_punctuation=True, with_stress=False):
     """EN: Make one phonemizer call. ES: Hace una llamada a phonemizer. FR: Effectue un appel à phonemizer."""
     try:
         from phonemizer import phonemize;
@@ -1109,11 +1166,15 @@ def phonemize_text(text, backend_language, preserve_punctuation=False, with_stre
 
 
 def apply_ipa_replacements(ipa, logical_language, config):
-    """EN: Apply small editable IPA overlays. ES: Aplica ajustes IPA. FR: Applique les ajustements IPA."""
+    """EN: Apply editable literal/regex IPA overlays. ES: Aplica ajustes IPA editables. FR: Applique les ajustements IPA modifiables."""
     mapping = config.get("ipa_replacements", {}).get(logical_language, {});
     result = ipa;
     for source in sorted(mapping, key=len, reverse=True):
         result = result.replace(source, mapping[source]);
+
+    regex_rules = config.get("ipa_regex_replacements", {}).get(logical_language, []);
+    for rule in regex_rules:
+        result = re.sub(rule["pattern"], rule["replacement"], result);
     return result;
 
 
@@ -1124,8 +1185,13 @@ def print_languages(supported, config):
     for alias, profile in LANGUAGE_PROFILES.items():
         try:
             _, backend_language, _ = resolve_language(alias, supported, config);
+            has_ipa_overlay = bool(config.get("ipa_replacements", {}).get(alias, {})) or bool(
+                config.get("ipa_regex_replacements", {}).get(alias, [])
+            );
             if profile.get("approximation", False) and backend_language != alias:
                 mode = "approximation";
+            elif has_ipa_overlay:
+                mode = "study overlay";
             elif backend_language == alias or (alias == "fr-fr" and backend_language in {"fr", "fr-fr"}) or (alias == "es-es" and backend_language in {"es", "es-es"}):
                 mode = "direct";
             elif alias == "fr-ch-qv" and backend_language == "fr-ch":

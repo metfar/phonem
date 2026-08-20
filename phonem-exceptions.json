@@ -79,18 +79,33 @@
       "fr"
     ]
   },
+  "ipa_regex_replacements": {
+    "es-uy": [
+      {
+        "pattern": "jj(?=[ˈˌ]?[aeiouɛɔ])",
+        "replacement": "ʃ"
+      }
+    ]
+  },
   "ipa_replacements": {
+    "es-es": {
+      "ʎ": "ʝ",
+      "ʎj": "ʝ"
+    },
     "es-uy": {
       "ɟʝ": "ʃ",
+      "ɟʝj": "ʃ",
       "ʎ": "ʃ",
-      "ʝ": "ʃ"
+      "ʎj": "ʃ",
+      "ʝ": "ʃ",
+      "ʝj": "ʃ"
     }
   },
   "license": "GPL-2.0-or-later",
   "notes": {
-    "en": "Edit backend_candidates, number_profiles, number_scales, replacements or ipa_replacements, then load the file with --exceptions FILE.",
-    "es": "Edite backend_candidates, number_profiles, number_scales, replacements o ipa_replacements y cargue el archivo con --exceptions FILE.",
-    "fr": "Modifiez backend_candidates, number_profiles, number_scales, replacements ou ipa_replacements, puis chargez le fichier avec --exceptions FILE."
+    "en": "Edit backend_candidates, number_profiles, number_scales, replacements, ipa_replacements or ipa_regex_replacements, then load the file with --exceptions FILE.",
+    "es": "Edite backend_candidates, number_profiles, number_scales, replacements, ipa_replacements o ipa_regex_replacements y cargue el archivo con --exceptions FILE.",
+    "fr": "Modifiez backend_candidates, number_profiles, number_scales, replacements, ipa_replacements ou ipa_regex_replacements, puis chargez le fichier avec --exceptions FILE."
   },
   "number_profiles": {
     "fr": {
@@ -184,8 +199,8 @@
   "profile_notes": {
     "en": {
       "en-ca": "Upstream eSpeak NG has no native en-ca voice; en-us is only a practical Canadian-English approximation for this study profile.",
-      "es-es": "eSpeak NG exposes Spanish (Spain) as es. es-es is a convenient logical alias.",
-      "es-uy": "Upstream eSpeak NG has no native es-uy voice. This formal Uruguayan study profile uses Latin-American Spanish (es-419, legacy es-la) to preserve seseo, then applies a small IPA overlay for voiceless rehilated yeismo (ll/consonantal y -> [ʃ]). Final /s/ is preserved; no aspiration or deletion is introduced. It deliberately has no Spain-voice fallback.",
+      "es-es": "eSpeak NG exposes Spanish (Spain) as es. The es-es study profile adds a small yeismo overlay so <ll> follows the widespread modern /ʝ/ realization instead of eSpeak's conservative /ʎ/.",
+      "es-uy": "Upstream eSpeak NG has no native es-uy voice. This formal Uruguayan study profile uses Latin-American Spanish (es-419, legacy es-la) for seseo and applies an IPA overlay for voiceless rehilated yeismo (consonantal y/ll -> [ʃ]). The overlay handles both palatal symbols and the /jj/ sequence emitted by some Latin-American eSpeak backends (ella -> /ejja/), yielding the study target /eʃa/ while leaving word-final vocalic y untouched. Final /s/ is preserved; no aspiration or deletion is introduced.",
       "fr-be": "Uses septante, quatre-vingts and nonante.",
       "fr-ca": "Uses Quebec/France number forms for 70/80/90. Upstream eSpeak NG has no native fr-ca voice; fr-be is only this project's pragmatic pronunciation approximation, not a claim of equivalence or of being linguistically the closest voice.",
       "fr-ch": "Study profile using septante, huitante and nonante; huitante is regional within French-speaking Switzerland.",
@@ -193,8 +208,8 @@
     },
     "es": {
       "en-ca": "eSpeak NG upstream no tiene una voz nativa en-ca; en-us es sólo una aproximación práctica al inglés canadiense para este perfil de estudio.",
-      "es-es": "eSpeak NG expone el español de España como es. es-es es un alias lógico cómodo.",
-      "es-uy": "eSpeak NG upstream no tiene una voz nativa es-uy. Este perfil formal uruguayo usa español latinoamericano (es-419, es-la legado) para conservar el seseo y luego aplica una capa IPA pequeña para el yeísmo rehilado sordo (ll/y consonántica -> [ʃ]). Se conservan las /s/ finales; no se introduce aspiración ni elisión. Deliberadamente no usa una voz de España como fallback.",
+      "es-es": "eSpeak NG expone el español de España como es. El perfil de estudio es-es agrega una pequeña capa de yeísmo para que <ll> siga la realización moderna extendida /ʝ/ en vez del /ʎ/ conservador de eSpeak.",
+      "es-uy": "eSpeak NG upstream no tiene una voz nativa es-uy. Este perfil formal uruguayo usa español latinoamericano (es-419, es-la legado) para el seseo y aplica una capa IPA para el yeísmo rehilado sordo (y/ll consonánticas -> [ʃ]). La capa maneja tanto símbolos palatales como la secuencia /jj/ que algunos backends latinoamericanos de eSpeak emiten (ella -> /ejja/), para obtener el objetivo /eʃa/ sin alterar la y vocálica final. Se conservan las /s/ finales; no se introduce aspiración ni elisión.",
       "fr-be": "Usa septante, quatre-vingts y nonante.",
       "fr-ca": "Usa las formas de Quebec/Francia para 70/80/90. eSpeak NG upstream no tiene una voz nativa fr-ca; fr-be es sólo la aproximación pragmática elegida por este proyecto, no una afirmación de equivalencia ni de que sea lingüísticamente la voz más cercana.",
       "fr-ch": "Perfil de estudio con septante, huitante y nonante; huitante es regional dentro de la Suiza francófona.",
@@ -202,8 +217,8 @@
     },
     "fr": {
       "en-ca": "eSpeak NG upstream ne fournit pas de voix native en-ca; en-us n'est qu'une approximation pratique de l'anglais canadien pour ce profil d'étude.",
-      "es-es": "eSpeak NG expose l'espagnol d'Espagne sous le code es. es-es est un alias logique pratique.",
-      "es-uy": "eSpeak NG upstream ne fournit pas de voix native es-uy. Ce profil formel uruguayen utilise l'espagnol latino-américain (es-419, ancien es-la) afin de conserver le seseo, puis applique une petite couche IPA pour le yeísmo rehilado sourd (ll/y consonantique -> [ʃ]). Les /s/ finales sont conservées; aucune aspiration ni élision n'est ajoutée. Aucune voix d'Espagne n'est utilisée comme solution de repli.",
+      "es-es": "eSpeak NG expose l'espagnol d'Espagne sous le code es. Le profil d'étude es-es ajoute une petite couche de yeísmo afin que <ll> suive la réalisation moderne largement répandue /ʝ/ plutôt que le /ʎ/ conservateur d'eSpeak.",
+      "es-uy": "eSpeak NG upstream ne fournit pas de voix native es-uy. Ce profil formel uruguayen utilise l'espagnol latino-américain (es-419, ancien es-la) pour le seseo et applique une couche IPA pour le yeísmo rehilado sourd (y/ll consonantiques -> [ʃ]). Cette couche gère les symboles palataux ainsi que la séquence /jj/ émise par certains backends latino-américains d'eSpeak (ella -> /ejja/), afin d'obtenir la cible /eʃa/ sans modifier le y vocalique final. Les /s/ finales sont conservées; aucune aspiration ni élision n'est ajoutée.",
       "fr-be": "Utilise septante, quatre-vingts et nonante.",
       "fr-ca": "Utilise les formes du Québec/de France pour 70/80/90. eSpeak NG upstream ne fournit pas de voix native fr-ca; fr-be n'est que l'approximation pragmatique choisie par ce projet, sans prétendre à l'équivalence ni à la plus grande proximité linguistique.",
       "fr-ch": "Profil d'étude avec septante, huitante et nonante; huitante est régional en Suisse romande.",
@@ -228,5 +243,5 @@
     "fr-ch-qv": {},
     "fr-fr": {}
   },
-  "schema_version": 2
+  "schema_version": 3
 }

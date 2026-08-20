@@ -1,0 +1,4 @@
+# Python dependencies / Dependencias Python / Dépendances Python
+# Project runtime target: Python >= 3.9
+phonemizer>=3.4,<4
+piper-tts[alignment]>=1.7,<2
