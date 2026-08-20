@@ -1,0 +1,46 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "phonem-toolkit"
+version = "1.6.0"
+description = "Unix-style language study toolkit: transcription, translation, phonemization and pronunciation"
+readme = "README.md"
+requires-python = ">=3.9"
+license = {file = "COPYING"}
+authors = [
+    {name = "William Martinez Bas", email = "metfar@gmail.com"},
+]
+keywords = ["language", "ipa", "phonemizer", "piper", "translation", "whisper"]
+classifiers = [
+    "Environment :: Console",
+    "License :: OSI Approved :: GNU General Public License v2 or later (GPLv2+)",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Topic :: Education",
+    "Topic :: Multimedia :: Sound/Audio :: Speech",
+]
+dependencies = [
+    "googletrans==4.0.2",
+    "phonemizer>=3.4,<4",
+    "piper-tts[alignment]>=1.7,<2",
+    "faster-whisper>=1,<2",
+    "numpy>=1.24,<3",
+]
+
+[project.scripts]
+phonem = "phonem:main"
+pronounce = "pronounce:main"
+trans = "trans:main"
+transcribe = "transcribe:main"
+
+[tool.setuptools]
+py-modules = [
+    "language_profiles",
+    "phonem",
+    "pronounce",
+    "trans",
+    "transcribe",
+]

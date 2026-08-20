@@ -1,0 +1,10 @@
+include COPYING
+include LICENSE
+include README.md
+include requirements.txt
+include phonem-exceptions.json
+include pronounce.json
+include pronounce.example.json
+include install.sh
+include uninstall.sh
+recursive-exclude * __pycache__ *.py[cod]

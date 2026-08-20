@@ -28,7 +28,7 @@ audio -> transcribe.py -> text -> trans.py -> translated text
       -> phonem.py -> IPA -> pronounce.py -> audio
 ```
 
-The `.py` names and shorter executable aliases are equivalent inside the package: `transcribe`, `trans`, `phonem`, and `pronounce` are symlinks to their stable `.py` names.
+In the source archive, the shorter names `transcribe`, `trans`, `phonem`, and `pronounce` are symlinks to the stable `.py` names. After installation with `install.sh` or `pip install .`, the same four short names are installed as normal console commands.
 
 ### Common language convention
 
@@ -51,7 +51,13 @@ Thus `-l es` and `-l es-uy` mean the same project profile. External engines do n
 
 ## Quick start
 
-Transcribe local audio:
+For a normal first installation, including the default Piper voices and the faster-whisper `small` model:
+
+```bash
+./install.sh
+```
+
+Then the short commands can be used from any directory (provided `~/.local/bin` is in `PATH`). Transcribe local audio:
 
 ```bash
 ./transcribe.py recording.mp3 -l auto
@@ -143,17 +149,50 @@ IPA -> audio through Piper. IPA itself does not reliably identify a language or 
 
 ## Installation
 
-The primary target is GNU/Linux/POSIX with Python 3.9 or newer.
+The primary target is GNU/Linux/POSIX with Python 3.9 or newer. The recommended installer deliberately separates **system packages** from **project installation**: it checks system commands but never runs `sudo` or a package manager behind the user's back.
+
+On Debian/Ubuntu-like systems, install the system dependencies once:
 
 ```bash
 sudo apt install python3 python3-venv espeak-ng ffmpeg
-python3 -m venv .venv
-. .venv/bin/activate
-python3 -m pip install --upgrade pip
-python3 -m pip install -r requirements.txt
 ```
 
-Python dependencies in the package:
+Then the normal installation is one command:
+
+```bash
+./install.sh
+```
+
+By default `install.sh`:
+
+1. creates a private virtual environment at `${XDG_DATA_HOME:-~/.local/share}/phonem/venv`;
+2. installs the project and all Python dependencies through `pyproject.toml`;
+3. exposes `phonem`, `pronounce`, `trans`, and `transcribe` in `${PHONEM_BIN_DIR:-~/.local/bin}`;
+4. creates or migrates `pronounce.json` with `pronounce --update-config`;
+5. downloads the unique configured default Piper voices, skipping voices already installed;
+6. preloads the faster-whisper `small` model in the normal Hugging Face cache;
+7. runs the command/version checks and `pronounce --check`.
+
+Useful installer modes:
+
+```bash
+./install.sh --minimal                 # code + Python dependencies, no model downloads
+./install.sh --update                  # update an existing installation in place
+./install.sh --no-piper                # skip Piper voice downloads
+./install.sh --no-whisper              # skip Whisper model preload
+./install.sh --whisper-model medium    # preload another faster-whisper model
+./install.sh --dry-run                 # show the main actions only
+```
+
+The Python packaging layer is standard `pyproject.toml`. A manual Python-only installation is therefore also possible:
+
+```bash
+python3 -m pip install .
+```
+
+That command installs the Python package and the four console entry points, but **does not automatically download acoustic/speech-recognition models**. This distinction is intentional so `pip install .` does not unexpectedly perform large downloads. The legacy `requirements.txt` remains available for development or fully manual installation.
+
+Python dependencies are currently:
 
 ```text
 googletrans==4.0.2
@@ -163,13 +202,13 @@ faster-whisper>=1,<2
 numpy>=1.24,<3
 ```
 
-Initialize/update the Piper configuration and install the unique default voices:
+Uninstall the private environment and command links with:
 
 ```bash
-./pronounce.py --update-config
-./pronounce.py --download-defaults
-./pronounce.py --list-models
+./uninstall.sh
 ```
+
+Configuration and third-party model caches are preserved by default. `./uninstall.sh --purge` additionally removes the project's configuration/cache directories, but still preserves Piper and Hugging Face model caches because they may be shared by other applications.
 
 ## Complete pipelines
 
@@ -515,6 +554,14 @@ Por tanto, `-l es` y `-l es-uy` significan exactamente el mismo perfil dentro de
 
 ## Inicio rápido
 
+Para una primera instalación normal, incluyendo las voces Piper predeterminadas y el modelo `small` de faster-whisper:
+
+```bash
+./install.sh
+```
+
+Después se pueden usar los comandos cortos desde cualquier directorio (si `~/.local/bin` está en `PATH`).
+
 Transcribir audio:
 
 ```bash
@@ -612,17 +659,50 @@ IPA -> audio mediante Piper. Como un flujo IPA no transporta de forma fiable el 
 
 ## Instalación
 
-El objetivo principal es GNU/Linux/POSIX con Python 3.9 o posterior.
+El objetivo principal es GNU/Linux/POSIX con Python 3.9 o posterior. El instalador separa deliberadamente **dependencias del sistema** de **instalación del proyecto**: comprueba los comandos necesarios, pero nunca ejecuta `sudo` ni un gestor de paquetes a espaldas del usuario.
+
+En Debian/Ubuntu y derivados, las dependencias del sistema se instalan una vez:
 
 ```bash
 sudo apt install python3 python3-venv espeak-ng ffmpeg
-python3 -m venv .venv
-. .venv/bin/activate
-python3 -m pip install --upgrade pip
-python3 -m pip install -r requirements.txt
 ```
 
-Dependencias Python:
+Después, la instalación normal queda reducida a:
+
+```bash
+./install.sh
+```
+
+Por defecto `install.sh`:
+
+1. crea un entorno virtual privado en `${XDG_DATA_HOME:-~/.local/share}/phonem/venv`;
+2. instala el proyecto y todas las dependencias Python mediante `pyproject.toml`;
+3. deja `phonem`, `pronounce`, `trans` y `transcribe` en `${PHONEM_BIN_DIR:-~/.local/bin}`;
+4. crea o migra `pronounce.json` mediante `pronounce --update-config`;
+5. descarga las voces Piper predeterminadas únicas, omitiendo las ya instaladas;
+6. precarga el modelo `small` de faster-whisper en la caché normal de Hugging Face;
+7. comprueba versiones/comandos y ejecuta `pronounce --check`.
+
+Modos útiles:
+
+```bash
+./install.sh --minimal                 # código + dependencias Python, sin modelos
+./install.sh --update                  # actualiza una instalación existente
+./install.sh --no-piper                # no descarga voces Piper
+./install.sh --no-whisper              # no precarga Whisper
+./install.sh --whisper-model medium    # precarga otro modelo faster-whisper
+./install.sh --dry-run                 # muestra las acciones principales
+```
+
+La capa de empaquetado Python usa `pyproject.toml`, así que también se puede hacer una instalación Python manual:
+
+```bash
+python3 -m pip install .
+```
+
+Ese comando instala el paquete Python y los cuatro comandos de consola, pero **no descarga automáticamente los modelos acústicos o de reconocimiento de voz**. Es intencional: `pip install .` no debería iniciar descargas grandes por sorpresa. `requirements.txt` se conserva para desarrollo o instalaciones completamente manuales.
+
+Dependencias Python actuales:
 
 ```text
 googletrans==4.0.2
@@ -632,13 +712,13 @@ faster-whisper>=1,<2
 numpy>=1.24,<3
 ```
 
-Configuración y voces Piper:
+Para quitar el entorno privado y los enlaces de comandos:
 
 ```bash
-./pronounce.py --update-config
-./pronounce.py --download-defaults
-./pronounce.py --list-models
+./uninstall.sh
 ```
+
+Por defecto se conservan la configuración y las cachés de modelos de terceros. `./uninstall.sh --purge` elimina además los directorios de configuración/caché propios del proyecto, pero conserva los modelos Piper y la caché de Hugging Face porque pueden ser compartidos por otras aplicaciones.
 
 ## Pipelines completos
 
@@ -978,6 +1058,14 @@ Ainsi `-l fr` et `-l fr-fr` désignent exactement le même profil du projet. Cha
 
 ## Démarrage rapide
 
+Pour une première installation normale, y compris les voix Piper par défaut et le modèle `small` de faster-whisper :
+
+```bash
+./install.sh
+```
+
+Les commandes courtes peuvent ensuite être utilisées depuis n'importe quel répertoire (si `~/.local/bin` est dans `PATH`).
+
 Transcrire :
 
 ```bash
@@ -1062,17 +1150,50 @@ API -> audio via Piper. L'API seul ne suffit pas à déduire de façon fiable le
 
 ## Installation
 
-Cible principale : GNU/Linux/POSIX, Python 3.9 ou plus récent.
+La cible principale est GNU/Linux/POSIX avec Python 3.9 ou plus récent. L'installateur sépare volontairement les **dépendances système** de **l'installation du projet** : il vérifie les commandes nécessaires mais n'exécute jamais `sudo` ni un gestionnaire de paquets à l'insu de l'utilisateur.
+
+Sous Debian/Ubuntu et dérivés, installez une fois les dépendances système :
 
 ```bash
 sudo apt install python3 python3-venv espeak-ng ffmpeg
-python3 -m venv .venv
-. .venv/bin/activate
-python3 -m pip install --upgrade pip
-python3 -m pip install -r requirements.txt
 ```
 
-Dépendances Python :
+Ensuite l'installation normale se réduit à :
+
+```bash
+./install.sh
+```
+
+Par défaut `install.sh` :
+
+1. crée un environnement virtuel privé dans `${XDG_DATA_HOME:-~/.local/share}/phonem/venv` ;
+2. installe le projet et toutes les dépendances Python via `pyproject.toml` ;
+3. expose `phonem`, `pronounce`, `trans` et `transcribe` dans `${PHONEM_BIN_DIR:-~/.local/bin}` ;
+4. crée ou migre `pronounce.json` avec `pronounce --update-config` ;
+5. télécharge les voix Piper par défaut uniques en ignorant celles déjà installées ;
+6. précharge le modèle `small` de faster-whisper dans le cache Hugging Face normal ;
+7. vérifie les commandes/versions et exécute `pronounce --check`.
+
+Modes utiles :
+
+```bash
+./install.sh --minimal                 # code + dépendances Python, sans modèles
+./install.sh --update                  # met à jour une installation existante
+./install.sh --no-piper                # ne télécharge pas les voix Piper
+./install.sh --no-whisper              # ne précharge pas Whisper
+./install.sh --whisper-model medium    # précharge un autre modèle faster-whisper
+./install.sh --dry-run                 # affiche les actions principales
+```
+
+L'empaquetage Python repose sur `pyproject.toml`; une installation Python manuelle reste donc possible :
+
+```bash
+python3 -m pip install .
+```
+
+Cette commande installe le paquet Python et les quatre commandes de console, mais **ne télécharge pas automatiquement les modèles acoustiques ou de reconnaissance vocale**. C'est volontaire : `pip install .` ne doit pas déclencher de gros téléchargements inattendus. `requirements.txt` reste disponible pour le développement ou une installation entièrement manuelle.
+
+Dépendances Python actuelles :
 
 ```text
 googletrans==4.0.2
@@ -1082,13 +1203,13 @@ faster-whisper>=1,<2
 numpy>=1.24,<3
 ```
 
-Configuration Piper :
+Pour supprimer l'environnement privé et les liens de commandes :
 
 ```bash
-./pronounce.py --update-config
-./pronounce.py --download-defaults
-./pronounce.py --list-models
+./uninstall.sh
 ```
+
+La configuration et les caches de modèles tiers sont conservés par défaut. `./uninstall.sh --purge` supprime aussi les répertoires de configuration/cache propres au projet, mais conserve les modèles Piper et le cache Hugging Face car ils peuvent être partagés avec d'autres applications.
 
 ## Pipelines complets
 
