@@ -3,3 +3,5 @@
 googletrans==4.0.2
 phonemizer>=3.4,<4
 piper-tts[alignment]>=1.7,<2
+faster-whisper>=1,<2
+numpy>=1.24,<3

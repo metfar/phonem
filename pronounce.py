@@ -1,1 +1,1 @@
-pronounce0.5.0.py
+pronounce0.6.0.py

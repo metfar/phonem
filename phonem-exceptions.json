@@ -1,10 +1,5 @@
 {
   "backend_candidates": {
-    "en": [
-      "en",
-      "en-gb",
-      "en-us"
-    ],
     "en-ca": [
       "en-us",
       "en",
@@ -37,11 +32,6 @@
       "en-us",
       "en"
     ],
-    "es": [
-      "es",
-      "es-419",
-      "es-la"
-    ],
     "es-es": [
       "es",
       "es-es"
@@ -49,10 +39,6 @@
     "es-uy": [
       "es-419",
       "es-la"
-    ],
-    "fr": [
-      "fr",
-      "fr-fr"
     ],
     "fr-be": [
       "fr-be",
@@ -226,22 +212,19 @@
     }
   },
   "replacements": {
-    "en": {},
     "en-ca": {},
     "en-gb": {},
     "en-lancashire": {},
     "en-nyc": {},
     "en-rp": {},
     "en-us": {},
-    "es": {},
     "es-es": {},
     "es-uy": {},
-    "fr": {},
     "fr-be": {},
     "fr-ca": {},
     "fr-ch": {},
     "fr-ch-qv": {},
     "fr-fr": {}
   },
-  "schema_version": 3
+  "schema_version": 4
 }
