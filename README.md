@@ -1,10 +1,10 @@
-# phonem.py 1.5.0 / pronounce.py 0.5.0
+# phonem.py 1.5.0 / pronounce.py 0.5.0 / trans.py 0.9.5
 
-Small GPL-2.0-or-later command-line study tool for comparing pronunciation and number vocabulary across English, French and Spanish varieties.
+Small GPL-2.0-or-later command-line study toolkit for translation, pronunciation and number vocabulary across English, French and Spanish varieties.
 
-Herramienta pequeña de línea de comandos, GPL-2.0-or-later, para estudiar y comparar pronunciación y vocabulario numérico entre variantes del inglés, francés y español.
+Conjunto pequeño de herramientas de línea de comandos, GPL-2.0-or-later, para traducir, estudiar y comparar pronunciación y vocabulario numérico entre variantes del inglés, francés y español.
 
-Petit outil d'étude en ligne de commande, sous GPL-2.0-or-later, pour comparer la prononciation et le vocabulaire des nombres entre plusieurs variétés d'anglais, de français et d'espagnol.
+Petit ensemble d'outils d'étude en ligne de commande, sous GPL-2.0-or-later, pour traduire et comparer la prononciation et le vocabulaire des nombres entre plusieurs variétés d'anglais, de français et d'espagnol.
 
 - [English](#english)
 - [Español](#español)
@@ -45,6 +45,41 @@ Normal output contains only IPA. Diagnostics go to `stderr`, so pipes remain use
 ```
 
 The short form needs a configured default Piper voice. IPA describes phonemes, but it does not carry a language/profile or a speaker identity, so reproducible scripts should normally pass `-l` or `--voice` to `pronounce.py` as well.
+
+### `trans.py`: text translation
+
+`trans.py` 0.1.0 brings the older translator into the same Unix-style project. It uses `googletrans==4.0.2`, keeps translated text clean on `stdout`, writes diagnostics/errors to `stderr`, and accepts positional text, `-t/--text`, `-i/--input`, or stdin. The original `SRC DEST` interface remains compatible. The package also includes `trans -> trans.py` as a compatibility command for the old filename.
+
+```bash
+./trans.py en es "Hello world"
+./trans.py en es -t "Hello world"
+echo "Hello world" | ./trans.py en es
+./trans.py auto fr -i notes.txt
+```
+
+This makes translation composable with the pronunciation tools:
+
+```bash
+./trans.py es fr "La casa es azul." | \
+    ./phonem.py -l fr-fr | \
+    ./pronounce.py -l fr-fr
+```
+
+Long input is split conservatively into 5000-character chunks by default (`--chunk-size` can change it, up to 15000). `googletrans` uses Google's **unofficial web API** and its upstream project explicitly warns that service availability is not guaranteed; failures are therefore treated as normal runtime errors rather than hidden retries or silent fallbacks. The translator session is asynchronous and reused across all chunks.
+
+ANSI/ECMA-48 terminal escape sequences are stripped from input **by default** before translation. This keeps coloured command output from leaking control codes such as `ESC[01;36m` into Google Translate:
+
+```bash
+ls --color=always -1 | ./trans.py en es
+```
+
+Use `--keep-ansi` only when preserving those raw terminal sequences is explicitly desired. The filter also applies when source and destination are equal, so `... | ./trans.py en en` can be used as a simple ANSI-cleaning pipe.
+
+List language codes exposed by the installed googletrans version with:
+
+```bash
+./trans.py --list-languages
+```
 
 ### Language profiles
 
@@ -188,11 +223,12 @@ Thousands can be grouped with narrow/non-breaking spaces, underscores or apostro
 
 The project currently targets a GNU/Linux/POSIX command-line environment. Other systems may work, but they are not the primary tested target of this project.
 
-Minimum runtime for the complete `phonem.py` + `pronounce.py` toolchain:
+Minimum runtime for the complete `trans.py` + `phonem.py` + `pronounce.py` toolchain:
 
 | Component | Requirement | Used by |
 |---|---|---|
-| Python | **3.9 or newer** | both programs |
+| Python | **3.9 or newer** | all three programs |
+| `googletrans` | `==4.0.2` | `trans.py` |
 | `phonemizer` | `>=3.4,<4` | `phonem.py` |
 | eSpeak NG | system installation | `phonem.py` / phonemizer backend |
 | `piper-tts[alignment]` | `>=1.7,<2` | `pronounce.py` |
@@ -454,6 +490,39 @@ La idea central es sencilla: **perfil de estudio y voz instalada no son la misma
 ./phonem.py "Quiero 1000000000 registros." -l es-uy
 ```
 
+### `trans.py`: traducción de texto
+
+`trans.py` 0.1.0 integra el traductor anterior al mismo proyecto sin cambiar su idea: `SRC DEST` sigue siendo la interfaz principal; el paquete también incluye `trans -> trans.py` como nombre compatible con el script viejo. La traducción limpia va por `stdout` y los diagnósticos van por `stderr`. Acepta texto posicional, `-t/--text`, `-i/--input` o stdin.
+
+```bash
+./trans.py en es "Hello world"
+./trans.py en es -t "Hello world"
+echo "Hello world" | ./trans.py en es
+./trans.py auto fr -i notas.txt
+```
+
+También se puede encadenar todo el proyecto:
+
+```bash
+./trans.py es fr "La casa es azul." | \
+    ./phonem.py -l fr-fr | \
+    ./pronounce.py -l fr-fr
+```
+
+Los textos largos se dividen de forma conservadora en bloques de 5000 caracteres (`--chunk-size` permite cambiarlo, hasta 15000). `googletrans` usa la **API web no oficial** de Google y su propio proyecto advierte que puede dejar de funcionar temporalmente; por eso `trans.py` informa los fallos de red/servicio como errores normales y no finge una traducción alternativa. La sesión asíncrona se reutiliza para todos los bloques.
+
+Las secuencias de escape ANSI/ECMA-48 del terminal se eliminan **por defecto** antes de traducir. De este modo, la salida coloreada de comandos no envía códigos como `ESC[01;36m` al traductor:
+
+```bash
+ls --color=always -1 | ./trans.py en es
+```
+
+`--keep-ansi` permite conservarlas sólo cuando se desea explícitamente. El filtro también se aplica si origen y destino son iguales, por lo que `... | ./trans.py en en` puede usarse simplemente para limpiar ANSI.
+
+```bash
+./trans.py --list-languages
+```
+
 ### `es-es` y `es-uy`
 
 `es-es` usa la voz `es` que eSpeak NG identifica como español de España.
@@ -553,11 +622,12 @@ Sigue siendo otra herramienta, no una función incrustada en `phonem.py`. Esa se
 
 El objetivo primario del proyecto es una línea de comandos GNU/Linux/POSIX. Puede funcionar en otros sistemas, pero no los presentamos como plataforma principal mientras no estén probados de la misma manera.
 
-Requisitos mínimos para el conjunto `phonem.py` + `pronounce.py`:
+Requisitos mínimos para el conjunto `trans.py` + `phonem.py` + `pronounce.py`:
 
 | Componente | Requisito | Lo usa |
 |---|---|---|
-| Python | **3.9 o posterior** | ambos programas |
+| Python | **3.9 o posterior** | los tres programas |
+| `googletrans` | `==4.0.2` | `trans.py` |
 | `phonemizer` | `>=3.4,<4` | `phonem.py` |
 | eSpeak NG | instalación del sistema | `phonem.py` / backend de phonemizer |
 | `piper-tts[alignment]` | `>=1.7,<2` | `pronounce.py` |
@@ -806,6 +876,39 @@ Le principe essentiel est de séparer **le profil logique d'étude** de **la voi
 ./phonem.py "Lluvia, yo, pacto, verdad, casas." -l es-uy
 ```
 
+### `trans.py` : traduction de texte
+
+`trans.py` 0.1.0 intègre l'ancien traducteur au même projet en conservant son interface `SRC DEST`. Le paquet fournit aussi `trans -> trans.py` comme nom compatible avec l'ancien script. La traduction propre est écrite sur `stdout`; les diagnostics et les erreurs vont sur `stderr`. Le texte peut être positionnel, fourni par `-t/--text`, `-i/--input` ou stdin.
+
+```bash
+./trans.py en fr "Hello world"
+./trans.py en fr -t "Hello world"
+echo "Hello world" | ./trans.py en fr
+./trans.py auto fr -i notes.txt
+```
+
+Les trois outils peuvent être chaînés :
+
+```bash
+./trans.py es fr "La casa es azul." | \
+    ./phonem.py -l fr-fr | \
+    ./pronounce.py -l fr-fr
+```
+
+Les textes longs sont découpés prudemment en blocs de 5000 caractères par défaut (`--chunk-size`, maximum 15000). `googletrans` utilise l'**API web non officielle** de Google et son projet amont avertit que sa disponibilité n'est pas garantie; `trans.py` signale donc clairement les erreurs réseau/service. Une seule session asynchrone est réutilisée pour tous les blocs.
+
+Les séquences d'échappement ANSI/ECMA-48 du terminal sont supprimées **par défaut** avant la traduction. Ainsi, une sortie de commande colorée n'envoie pas des codes tels que `ESC[01;36m` au traducteur :
+
+```bash
+ls --color=always -1 | ./trans.py en fr
+```
+
+`--keep-ansi` les conserve uniquement lorsqu'on le demande explicitement. Le filtre s'applique aussi lorsque la langue source et la langue cible sont identiques; `... | ./trans.py en en` peut donc servir de filtre ANSI simple.
+
+```bash
+./trans.py --list-languages
+```
+
 ### Profils espagnols
 
 `es-es` correspond à la voix `es` qu'eSpeak NG décrit comme espagnol d'Espagne.
@@ -880,11 +983,12 @@ Il reste volontairement un programme séparé afin de pouvoir envoyer le son ver
 
 La cible principale du projet est un environnement de ligne de commande GNU/Linux/POSIX. D'autres systèmes peuvent fonctionner, mais ils ne sont pas présentés comme cible principale tant qu'ils ne sont pas testés de la même manière.
 
-Prérequis minimaux pour l'ensemble `phonem.py` + `pronounce.py` :
+Prérequis minimaux pour l'ensemble `trans.py` + `phonem.py` + `pronounce.py` :
 
 | Composant | Prérequis | Utilisé par |
 |---|---|---|
-| Python | **3.9 ou plus récent** | les deux programmes |
+| Python | **3.9 ou plus récent** | les trois programmes |
+| `googletrans` | `==4.0.2` | `trans.py` |
 | `phonemizer` | `>=3.4,<4` | `phonem.py` |
 | eSpeak NG | installation système | `phonem.py` / backend phonemizer |
 | `piper-tts[alignment]` | `>=1.7,<2` | `pronounce.py` |
@@ -1167,6 +1271,7 @@ The project uses these references to keep the study assumptions checkable rather
 - PyPI, **piper-tts**: <https://pypi.org/project/piper-tts/>
 - Piper (Open Home Foundation), project and CLI/Python API: <https://github.com/OHF-Voice/piper1-gpl>
 - Phonemizer project: <https://github.com/bootphon/phonemizer>
+- googletrans project: <https://github.com/ssut/py-googletrans>
 - FFmpeg / ffplay documentation: <https://ffmpeg.org/>
 
 The references describe language usage; the approximations and study-profile choices remain this project's responsibility.
