@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "phonem-toolkit"
-version = "1.6.0"
+version = "1.6.0.post1"
 description = "Unix-style language study toolkit: transcription, translation, phonemization and pronunciation"
 readme = "README.md"
 requires-python = ">=3.9"
